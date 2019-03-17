@@ -42,14 +42,22 @@ public class Brain {
 			String[] bSplit = begin.split(":");
 			long bTime = Integer.parseInt(bSplit[0]) * 60 * 60 * 1000 + Integer.parseInt(bSplit[1]) * 60 * 1000
 					+ Integer.parseInt(bSplit[2]) * 1000 + Integer.parseInt(bSplit[3]);
-			
+
 			String[] eSplit = end.split(":");
 			long eTime = Integer.parseInt(eSplit[0]) * 60 * 60 * 1000 + Integer.parseInt(eSplit[1]) * 60 * 1000
 					+ Integer.parseInt(eSplit[2]) * 1000 + Integer.parseInt(eSplit[3]);
 
 			screen.play(new File(file.getParent(), filename), bTime, eTime);
+
+			try {
+				Thread.sleep(eTime - bTime);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
+		screen.exitProgram();
 	}
 
 	Brain() {
