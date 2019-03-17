@@ -39,7 +39,15 @@ public class Brain {
 			String begin = element.getElementsByTagName("begin").item(0).getTextContent();
 			String end = element.getElementsByTagName("end").item(0).getTextContent();
 
-			screen.play(new File(file.getParent(), filename));
+			String[] bSplit = begin.split(":");
+			long bTime = Integer.parseInt(bSplit[0]) * 60 * 60 * 1000 + Integer.parseInt(bSplit[1]) * 60 * 1000
+					+ Integer.parseInt(bSplit[2]) * 1000 + Integer.parseInt(bSplit[3]);
+			
+			String[] eSplit = end.split(":");
+			long eTime = Integer.parseInt(eSplit[0]) * 60 * 60 * 1000 + Integer.parseInt(eSplit[1]) * 60 * 1000
+					+ Integer.parseInt(eSplit[2]) * 1000 + Integer.parseInt(eSplit[3]);
+
+			screen.play(new File(file.getParent(), filename), bTime, eTime);
 		}
 
 	}

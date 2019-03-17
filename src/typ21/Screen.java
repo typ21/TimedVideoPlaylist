@@ -1,7 +1,6 @@
 package typ21;
 
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -32,6 +31,7 @@ public class Screen extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 //		setUndecorated(true);
 //		setExtendedState(MAXIMIZED_BOTH);
+		setSize(854, 480);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -54,15 +54,12 @@ public class Screen extends JFrame {
 		mediaPlayer.events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
 			@Override
 			public void playing(MediaPlayer mediaPlayer) {
-				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
 				List<? extends TrackInfo> trackInfo = mediaPlayer.media().info().tracks(TrackType.VIDEO);
 				for (TrackInfo track : trackInfo) {
 					VideoTrackInfo videoTrack = (VideoTrackInfo) track;
 
-					setBounds((screenSize.width - videoTrack.width()) / 2,
-							(screenSize.height - videoTrack.height()) / 2, videoTrack.width(), videoTrack.height());
-
+					mediaPlayerComponent.setPreferredSize(new Dimension(videoTrack.width(), videoTrack.height()));
+					pack();
 				}
 			}
 
@@ -74,11 +71,12 @@ public class Screen extends JFrame {
 		});
 	}
 
-	public void play(File file) {
+	public void play(File file, long beginning, long ending) {
 		System.out.println("Now playing " + file.getName());
 		setTitle(file.getName());
 
-//		mediaPlayer.media().play(file.getAbsolutePath());
+		mediaPlayer.media().play(file.getAbsolutePath());
+		mediaPlayer.controls().setTime(beginning);
 	}
 
 }
